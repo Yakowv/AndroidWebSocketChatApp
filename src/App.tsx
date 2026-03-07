@@ -10,6 +10,28 @@ import { ConnectionStatus, UserProfile } from "./types";
 import { Send, Zap, RefreshCw, LogOut, Search, User, X, Check } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
+const getRandomColor = () => {
+  const r = Math.floor(Math.random() * 200);
+  const g = Math.floor(Math.random() * 200);
+  const b = Math.floor(Math.random() * 200);
+  return `rgb(${r}, ${g}, ${b})`;
+};
+
+/**
+ * Avatar Component
+ */
+const Avatar = ({ color, name, size = "w-10 h-10" }: { color?: string, name: string, size?: string }) => {
+  const initials = name.charAt(0).toUpperCase();
+  return (
+    <div 
+      className={`${size} rounded-full flex items-center justify-center text-white font-bold shadow-inner overflow-hidden flex-shrink-0`}
+      style={{ backgroundColor: color || '#ccc' }}
+    >
+      {initials}
+    </div>
+  );
+};
+
 /**
  * Profile Modal Component
  */
@@ -26,7 +48,7 @@ const ProfileModal = ({
   const [avatar, setAvatar] = useState(profile.avatar);
 
   const generateNewAvatar = () => {
-    setAvatar(`https://api.dicebear.com/7.x/avataaars/svg?seed=${Math.random()}`);
+    setAvatar(getRandomColor());
   };
 
   return (
@@ -50,9 +72,7 @@ const ProfileModal = ({
 
         <div className="flex flex-col items-center gap-6">
           <div className="relative group">
-            <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-zinc-100 shadow-inner">
-              <img src={avatar} alt="Avatar" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-            </div>
+            <Avatar color={avatar} name={username} size="w-24 h-24 text-3xl" />
             <button 
               onClick={generateNewAvatar}
               className="absolute bottom-0 right-0 bg-zinc-900 text-white p-2 rounded-full shadow-lg hover:scale-110 transition-transform"
@@ -158,9 +178,9 @@ export default function App() {
               <div className="flex items-center gap-3">
                 <button 
                   onClick={() => setIsProfileOpen(true)}
-                  className="w-10 h-10 rounded-full overflow-hidden border border-zinc-100 hover:scale-105 transition-transform"
+                  className="hover:scale-105 transition-transform"
                 >
-                  <img src={profile.avatar} alt="Me" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                  <Avatar color={profile.avatar} name={profile.username} />
                 </button>
                 <div className="flex flex-col">
                   <h1 className="text-sm font-bold text-zinc-900 tracking-tight leading-none">{profile.username}</h1>
@@ -254,9 +274,7 @@ export default function App() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   className={`flex gap-3 ${isMe ? 'flex-row-reverse' : 'flex-row'}`}
                 >
-                  <div className="w-8 h-8 rounded-full overflow-hidden border border-zinc-100 flex-shrink-0 mt-1">
-                    <img src={msg.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${msg.author}`} alt={msg.author} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                  </div>
+                  <Avatar color={msg.avatar} name={msg.author} size="w-8 h-8 text-xs" />
                   
                   <div className={`flex flex-col max-w-[75%] ${isMe ? 'items-end' : 'items-start'}`}>
                     {!isMe && <span className="text-[10px] font-bold text-zinc-400 mb-1 px-1">{msg.author}</span>}

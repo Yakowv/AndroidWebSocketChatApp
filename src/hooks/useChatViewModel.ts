@@ -7,9 +7,16 @@ import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { WebSocketManager } from "../services/WebSocketManager";
 import { ChatMessage, ConnectionStatus, MessageType, UserProfile } from "../types";
 
+const getRandomColor = () => {
+  const r = Math.floor(Math.random() * 200); // Keep it a bit dark for contrast
+  const g = Math.floor(Math.random() * 200);
+  const b = Math.floor(Math.random() * 200);
+  return `rgb(${r}, ${g}, ${b})`;
+};
+
 const DEFAULT_PROFILE: UserProfile = {
   username: "User_" + Math.floor(Math.random() * 1000),
-  avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${Math.random()}`,
+  avatar: getRandomColor(),
 };
 
 /**
