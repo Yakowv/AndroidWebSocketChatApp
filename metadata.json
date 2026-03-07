@@ -1,0 +1,5 @@
+{
+  "name": "Production Android Chat Simulator",
+  "description": "A high-fidelity simulation of a production-ready Android chat application with real-time WebSocket, heartbeat, and exponential backoff reconnection.",
+  "requestFramePermissions": []
+}
